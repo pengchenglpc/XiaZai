@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 import javax.swing.JTable;
 
+import com.lpc.xiazai.common.CommonUtil;
 import com.lpc.xiazai.ui.XiaZaiTableModel;
 
 public class XiaZaiTimerTask extends TimerTask {
@@ -25,6 +26,7 @@ public class XiaZaiTimerTask extends TimerTask {
 	public void run() {
 		if(lastSize == totalSize){
 			this.cancel();
+			return;
 		}
 		XiaZaiTableModel model = (XiaZaiTableModel)this.table.getModel();
 		long currentSize = file.length();
@@ -34,9 +36,14 @@ public class XiaZaiTimerTask extends TimerTask {
 		String scheduleStr = df.format(schedule);
 		String speedStr = (speed / 1000) + "kb/s";
 		lastSize = currentSize;
+		if(lastSize == totalSize){
+			System.out.println("-----------------------");
+		}
 		synchronized(model){
 			model.setValueAt(scheduleStr, rowIndex, 2);
 			model.setValueAt(speedStr, rowIndex, 3);
+			if(speed > 0)
+				model.setValueAt(CommonUtil.timeFormat(((totalSize - currentSize) / speed)), rowIndex, 4);
 		}
 		
 	}
