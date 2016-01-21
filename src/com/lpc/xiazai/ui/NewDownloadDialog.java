@@ -103,6 +103,7 @@ public class NewDownloadDialog extends JDialog {
 				}
 				download.set(url, addressText.getText(), owner.getTable());
 				new DownloadRunnable(download).start();
+				NewDownloadDialog.this.dispose();
 			}
 			
 		});
