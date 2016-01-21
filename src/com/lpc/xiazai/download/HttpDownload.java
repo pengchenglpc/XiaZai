@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 
+import com.lpc.xiazai.common.CommonUtil;
 import com.lpc.xiazai.timer.XiaZaiTimerTask;
 import com.lpc.xiazai.ui.XiaZaiTableModel;
 import com.lpc.xiazai.vo.XiaZaiModelVo;
@@ -26,7 +27,7 @@ public class HttpDownload extends Download {
 		synchronized(model){
 			XiaZaiModelVo modelVo = new XiaZaiModelVo();
 			modelVo.setFileName(new File(url.getFile()).getName());
-			modelVo.setSize(conn.getContentLengthLong() + "");
+			modelVo.setSize(CommonUtil.spaceFormat(conn.getContentLengthLong()));
 			modelVo.setSchedule("0%");
 			modelVo.setSpeed("初始化中");
 			modelVo.setResidueTime("--");
