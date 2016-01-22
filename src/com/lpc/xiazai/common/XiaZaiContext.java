@@ -22,4 +22,12 @@ public class XiaZaiContext {
 	public Object getProperty(String key){
 		return contextMap.get(key);
 	}
+	
+	public String getPropertyString(String key){
+		String value = null;
+		if(this.getProperty(key) != null){
+			return this.getProperty(key).toString();
+		}
+		return value;
+	}
 }
