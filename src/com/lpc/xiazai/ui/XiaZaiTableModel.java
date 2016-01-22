@@ -75,4 +75,13 @@ public class XiaZaiTableModel extends AbstractTableModel {
 	public XiaZaiModelVo getAt(int rowIndex){
 		return this.dataList.get(rowIndex);
 	}
+	public int getIndexById(String id){
+		for(int i = 0; i < dataList.size(); i++){
+			XiaZaiModelVo model = dataList.get(i);
+			if(id.equals(model.getId())){
+				return i;
+			}
+		}
+		return -1;
+	}
 }

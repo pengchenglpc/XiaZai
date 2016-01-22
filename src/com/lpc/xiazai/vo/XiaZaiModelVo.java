@@ -11,6 +11,7 @@ public class XiaZaiModelVo {
 	private File cfgFile;
 	private Thread currentThread;
 	private int status = 1;
+	private String id;
 	public String getFileName() {
 		return fileName;
 	}
@@ -58,6 +59,12 @@ public class XiaZaiModelVo {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 }

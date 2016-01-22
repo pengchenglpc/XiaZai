@@ -4,6 +4,7 @@ public class XiaZaiContextVo {
 	private String id;
 	private String url;
 	private String tmpPath;
+	private String downloadClass;
 	public String getId() {
 		return id;
 	}
@@ -21,6 +22,12 @@ public class XiaZaiContextVo {
 	}
 	public void setTmpPath(String tmpPath) {
 		this.tmpPath = tmpPath;
+	}
+	public String getDownloadClass() {
+		return downloadClass;
+	}
+	public void setDownloadClass(String downloadClass) {
+		this.downloadClass = downloadClass;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.lpc.xiazai.common;
 
 import java.text.DecimalFormat;
+import java.util.UUID;
 
 public class CommonUtil {
 	private static final long dayMillis = 86400l;
@@ -40,5 +41,10 @@ public class CommonUtil {
 			return df.format(((space * 1.0d) / KB_SPACE)) + "K";
 		}
 		return space + "B";
+	}
+	
+	public static String id(){
+		UUID uuid = UUID.randomUUID();
+		return uuid.toString().replace("-", "");
 	}
 }

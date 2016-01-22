@@ -6,6 +6,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -15,6 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import com.lpc.xiazai.common.XiaZaiContext;
+import com.lpc.xiazai.download.Download;
+import com.lpc.xiazai.download.DownloadRunnable;
+import com.lpc.xiazai.vo.XiaZaiContextVo;
 import com.lpc.xiazai.vo.XiaZaiModelVo;
 
 public class MainFrame extends JFrame {
@@ -48,12 +55,26 @@ public class MainFrame extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					if(e.getClickCount() == 2){
 						int rowIndex = table.getSelectedRow();
+						System.out.println(rowIndex);
 						XiaZaiTableModel model = (XiaZaiTableModel) table.getModel();
 						XiaZaiModelVo modelVo = model.getAt(rowIndex);
 						if(modelVo.getStatus() == 1){
 							modelVo.getCurrentThread().interrupt();
-						}else{
-							modelVo.getCurrentThread().start();
+						}else if(modelVo.getStatus() == 0){
+							modelVo.setStatus(1);
+							String id = modelVo.getId();
+							XiaZaiContext ctx = XiaZaiContext.getContext();
+							XiaZaiContextVo contextVo = (XiaZaiContextVo)ctx.getProperty(id);
+							String downloadClazz = contextVo.getDownloadClass();
+							try {
+								Class clazz = Class.forName(downloadClazz);
+								Constructor constructor = clazz.getConstructor(String.class);
+								Download download = (Download)constructor.newInstance(id);
+								download.set(new URL(contextVo.getUrl()), contextVo.getTmpPath(), table);
+								new DownloadRunnable(download).start();
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
 						}
 					}
 				}

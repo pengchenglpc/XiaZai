@@ -1,27 +1,30 @@
 package com.lpc.xiazai.download;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.URLConnection;
 
 public class HttpDownload extends Download {
 	
+	public HttpDownload(String id) {
+		super(id);
+	}
+
 	@Override
 	public void download() throws Exception {
 		URLConnection conn = url.openConnection();
 		File tmp = createTargetTmpFile();
 		this.addData();
 		long startByte = this.startDownloadByte();
-		conn.setRequestProperty("RANGE", "bytes=" + startByte);
+		conn.setRequestProperty("User-Agent","NetFox"); 
+		conn.setRequestProperty("RANGE", "bytes=" + startByte+"-");
 		
 		InputStream input = conn.getInputStream();
 		//System.out.println(conn.getContentType());
 		this.startTimer(tmp, conn.getContentLengthLong());
-		RandomAccessFile raf = new RandomAccessFile(tmp, "rwd");
+		RandomAccessFile raf = new RandomAccessFile(tmp, "rw");
 		raf.seek(startByte);
 		
 		BufferedInputStream bufferInput = new BufferedInputStream(input);
@@ -30,6 +33,7 @@ public class HttpDownload extends Download {
 		int result = -1;
 		while((result = bufferInput.read(bytes)) != -1){
 			if(this.isInterrupted(tmp)){
+				raf.close();
 				return;
 			}
 			raf.write(bytes, 0, result);
@@ -37,7 +41,8 @@ public class HttpDownload extends Download {
 		raf.close();
 		bufferInput.close();
 		this.stopTimer();
-		tmp.renameTo(new File(target, new File(url.getFile()).getName()));
+		tmp.renameTo(new File(tmp.getParent(), tmp.getName().replace(".tmp", "")));
+		this.removeCfgFile();
 	}
 	
 	

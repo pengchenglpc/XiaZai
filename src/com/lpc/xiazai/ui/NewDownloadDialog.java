@@ -11,15 +11,17 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.lpc.xiazai.common.CommonUtil;
+import com.lpc.xiazai.common.XiaZaiContext;
 import com.lpc.xiazai.download.Download;
 import com.lpc.xiazai.download.DownloadRunnable;
 import com.lpc.xiazai.download.HttpDownload;
+import com.lpc.xiazai.vo.XiaZaiContextVo;
 
 public class NewDownloadDialog extends JDialog {
 	/**
@@ -97,10 +99,20 @@ public class NewDownloadDialog extends JDialog {
 					return;
 				}
 				String protocol = url.getProtocol();
+				String id = CommonUtil.id();
 				Download download = null;
 				if("http".equalsIgnoreCase(protocol)){
-					download = new HttpDownload();
+					download = new HttpDownload(id);
 				}
+				System.out.println(download.getClass().getName());
+				XiaZaiContext ctx = XiaZaiContext.getContext();
+				XiaZaiContextVo contextVo = new XiaZaiContextVo();
+				
+				contextVo.setId(id);
+				contextVo.setDownloadClass(download.getClass().getName());
+				contextVo.setUrl(url.toString());
+				ctx.setProperty(id, contextVo);
+				
 				download.set(url, addressText.getText(), owner.getTable());
 				new DownloadRunnable(download).start();
 				NewDownloadDialog.this.dispose();
