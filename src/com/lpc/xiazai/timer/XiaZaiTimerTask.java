@@ -24,10 +24,6 @@ public class XiaZaiTimerTask extends TimerTask {
 	}
 	@Override
 	public void run() {
-		if(lastSize == totalSize){
-			this.cancel();
-			return;
-		}
 		XiaZaiTableModel model = (XiaZaiTableModel)this.table.getModel();
 		long currentSize = file.length();
 		long speed = currentSize - lastSize;
@@ -36,9 +32,6 @@ public class XiaZaiTimerTask extends TimerTask {
 		String scheduleStr = df.format(schedule);
 		String speedStr = CommonUtil.spaceFormat(speed) + "/s";
 		lastSize = currentSize;
-//		if(lastSize == totalSize){
-//			System.out.println("-----------------------");
-//		}
 		synchronized(model){
 			model.setValueAt(scheduleStr, rowIndex, 2);
 			model.setValueAt(speedStr, rowIndex, 3);
