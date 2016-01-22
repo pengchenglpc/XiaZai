@@ -34,16 +34,18 @@ public class XiaZaiTimerTask extends TimerTask {
 		double schedule = ((currentSize * 1.0d) / totalSize);
 		DecimalFormat df = new DecimalFormat("#.##%");
 		String scheduleStr = df.format(schedule);
-		String speedStr = (speed / 1000) + "kb/s";
+		String speedStr = CommonUtil.spaceFormat(speed) + "/s";
 		lastSize = currentSize;
-		if(lastSize == totalSize){
-			System.out.println("-----------------------");
-		}
+//		if(lastSize == totalSize){
+//			System.out.println("-----------------------");
+//		}
 		synchronized(model){
 			model.setValueAt(scheduleStr, rowIndex, 2);
 			model.setValueAt(speedStr, rowIndex, 3);
 			if(speed > 0)
 				model.setValueAt(CommonUtil.timeFormat(((totalSize - currentSize) / speed)), rowIndex, 4);
+			else
+				model.setValueAt("超过1天", rowIndex, 4);
 		}
 		
 	}
