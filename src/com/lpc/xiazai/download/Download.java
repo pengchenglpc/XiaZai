@@ -1,7 +1,10 @@
 package com.lpc.xiazai.download;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.util.Date;
 import java.util.Timer;
@@ -64,5 +67,18 @@ public abstract class Download {
 			model.setValueAt("--", rowIndex - 1, 3);
 			model.setValueAt("--", rowIndex - 1, 4);
 		}
+	}
+	protected boolean isInterrupted(File tmp) throws IOException{
+		if(Thread.currentThread().isInterrupted()){
+			File file = new File(target, new File(url.getFile()).getName() + ".cfg");
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+			out.write(tmp.length() + "");
+			out.close();
+			return true;
+		}
+		return false;
 	}
 }

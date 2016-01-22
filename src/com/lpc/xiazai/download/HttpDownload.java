@@ -30,6 +30,9 @@ public class HttpDownload extends Download {
 		byte[] bytes = new byte[4096];
 		int result = -1;
 		while((result = bufferInput.read(bytes)) != -1){
+			if(this.isInterrupted(tmp)){
+				break;
+			}
 			out.write(bytes, 0, result);
 		}
 		out.flush();

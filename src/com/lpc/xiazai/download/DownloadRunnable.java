@@ -12,7 +12,6 @@ public class DownloadRunnable extends Thread {
 		try {
 			this.download.download();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
