@@ -72,5 +72,7 @@ public class XiaZaiTableModel extends AbstractTableModel {
 		}
 		this.fireTableDataChanged();
 	}
-	
+	public XiaZaiModelVo getAt(int rowIndex){
+		return this.dataList.get(rowIndex);
+	}
 }

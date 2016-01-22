@@ -2,6 +2,8 @@ package com.lpc.xiazai.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -12,6 +14,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import com.lpc.xiazai.vo.XiaZaiModelVo;
 
 public class MainFrame extends JFrame {
 	/**
@@ -40,6 +44,20 @@ public class MainFrame extends JFrame {
 	public JTable getTable(){
 		if(table == null){
 			table = new JTable(new XiaZaiTableModel());
+			table.addMouseListener(new MouseAdapter(){
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 2){
+						int rowIndex = table.getSelectedRow();
+						XiaZaiTableModel model = (XiaZaiTableModel) table.getModel();
+						XiaZaiModelVo modelVo = model.getAt(rowIndex);
+						if(modelVo.getStatus() == 1){
+							modelVo.getCurrentThread().interrupt();
+						}else{
+							modelVo.getCurrentThread().start();
+						}
+					}
+				}
+			});
 		}
 		return table;
 	}

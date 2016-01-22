@@ -33,6 +33,7 @@ public class XiaZaiTimerTask extends TimerTask {
 		String speedStr = CommonUtil.spaceFormat(speed) + "/s";
 		lastSize = currentSize;
 		synchronized(model){
+			model.setValueAt(CommonUtil.spaceFormat(totalSize), rowIndex, 1);
 			model.setValueAt(scheduleStr, rowIndex, 2);
 			model.setValueAt(speedStr, rowIndex, 3);
 			if(speed > 0)

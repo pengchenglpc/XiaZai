@@ -11,7 +11,7 @@ public class DownloadRunnable extends Thread {
 	public void run() {
 		try {
 			this.download.download();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

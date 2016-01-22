@@ -1,11 +1,16 @@
 package com.lpc.xiazai.vo;
 
+import java.io.File;
+
 public class XiaZaiModelVo {
 	private String fileName;
 	private String size;
 	private String schedule;
 	private String speed;
 	private String residueTime;
+	private File cfgFile;
+	private Thread currentThread;
+	private int status = 1;
 	public String getFileName() {
 		return fileName;
 	}
@@ -35,6 +40,24 @@ public class XiaZaiModelVo {
 	}
 	public void setResidueTime(String residueTime) {
 		this.residueTime = residueTime;
+	}
+	public File getCfgFile() {
+		return cfgFile;
+	}
+	public void setCfgFile(File cfgFile) {
+		this.cfgFile = cfgFile;
+	}
+	public Thread getCurrentThread() {
+		return currentThread;
+	}
+	public void setCurrentThread(Thread currentThread) {
+		this.currentThread = currentThread;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	
 }
