@@ -41,7 +41,7 @@ public class HttpDownload extends Download {
 		}
 		raf.close();
 		bufferInput.close();
-		this.stopTimer();
+		this.finishTimer();
 		tmp.renameTo(new File(tmp.getParent(), tmp.getName().replace(".tmp", "")));
 		this.removeCfgFile();
 	}

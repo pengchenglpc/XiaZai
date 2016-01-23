@@ -35,6 +35,7 @@ public class MainFrame extends JFrame {
 		this.setResizable(true);
 		
 		this.setSize(700, 400);
+		setLocationRelativeTo(null);
 		JPanel panel = new JPanel();
 		JScrollPane scrollPanel = new JScrollPane(getTable());
 		panel.add(scrollPanel);

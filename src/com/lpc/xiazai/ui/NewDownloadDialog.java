@@ -42,6 +42,7 @@ public class NewDownloadDialog extends JDialog {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		//this.setLayout(new FlowLayout());
 		this.setSize(350, 150);
+		setLocationRelativeTo(null);
 		JLabel urlLabel = new JLabel("下载链接：");
 		JTextField urlText = new JTextField(20);
 //		urlText.setSize(100, 10);

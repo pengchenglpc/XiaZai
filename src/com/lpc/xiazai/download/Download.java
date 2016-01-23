@@ -79,13 +79,13 @@ public abstract class Download {
 			}
 		}
 	}
-	protected void stopTimer(){
+	protected void finishTimer(){
 		timer.cancel();
 		XiaZaiTableModel model = (XiaZaiTableModel)this.table.getModel();
 		synchronized(model){
 			model.setValueAt("100%", rowIndex , 2);
-			model.setValueAt("--", rowIndex, 3);
-			model.setValueAt("--", rowIndex, 4);
+			model.setValueAt("完成", rowIndex, 3);
+			model.setValueAt("完成", rowIndex, 4);
 		}
 	}
 	protected long startDownloadByte() throws NumberFormatException, IOException{
@@ -115,8 +115,8 @@ public abstract class Download {
 			timer.cancel();
 			synchronized(model){
 				//model.setValueAt("100%", rowIndex , 2);
-				model.setValueAt("--", rowIndex, 3);
-				model.setValueAt("--", rowIndex, 4);
+				model.setValueAt("暂停", rowIndex, 3);
+				model.setValueAt("暂停", rowIndex, 4);
 			}
 			out.close();
 			return true;
