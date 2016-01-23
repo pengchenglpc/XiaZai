@@ -1,13 +1,17 @@
 package com.lpc.xiazai.download;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
 import java.net.URL;
 import java.util.Date;
 import java.util.Timer;
@@ -129,5 +133,28 @@ public abstract class Download {
 		synchronized(model){
 			model.getAt(rowIndex).getCfgFile().delete();
 		}
+	}
+	
+	protected void downloadFile(InputStream input, File tmp, long startByte, long totalSize) throws Exception{
+		this.startTimer(tmp, totalSize);
+		RandomAccessFile raf = new RandomAccessFile(tmp, "rw");
+		raf.seek(startByte);
+		
+		BufferedInputStream bufferInput = new BufferedInputStream(input);
+//		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(tmp));
+		byte[] bytes = new byte[4096];
+		int result = -1;
+		while((result = bufferInput.read(bytes)) != -1){
+			if(this.isInterrupted(tmp)){
+				raf.close();
+				return;
+			}
+			raf.write(bytes, 0, result);
+		}
+		raf.close();
+		bufferInput.close();
+		this.finishTimer();
+		tmp.renameTo(new File(tmp.getParent(), tmp.getName().replace(".tmp", "")));
+		this.removeCfgFile();
 	}
 }

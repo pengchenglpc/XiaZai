@@ -23,26 +23,7 @@ public class HttpDownload extends Download {
 		
 		InputStream input = conn.getInputStream();
 		//System.out.println(conn.getContentType());
-		this.startTimer(tmp, conn.getContentLengthLong());
-		RandomAccessFile raf = new RandomAccessFile(tmp, "rw");
-		raf.seek(startByte);
-		
-		BufferedInputStream bufferInput = new BufferedInputStream(input);
-//		BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(tmp));
-		byte[] bytes = new byte[4096];
-		int result = -1;
-		while((result = bufferInput.read(bytes)) != -1){
-			if(this.isInterrupted(tmp)){
-				raf.close();
-				return;
-			}
-			raf.write(bytes, 0, result);
-		}
-		raf.close();
-		bufferInput.close();
-		this.finishTimer();
-		tmp.renameTo(new File(tmp.getParent(), tmp.getName().replace(".tmp", "")));
-		this.removeCfgFile();
+		this.downloadFile(input, tmp, startByte, conn.getContentLengthLong());
 	}
 	
 	
