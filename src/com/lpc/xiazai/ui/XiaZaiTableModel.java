@@ -70,7 +70,7 @@ public class XiaZaiTableModel extends AbstractTableModel {
 		}else if(columnIndex == 4){
 			model.setResidueTime(aValue.toString());
 		}
-		this.fireTableDataChanged();
+		this.fireTableCellUpdated(rowIndex, columnIndex);
 	}
 	public XiaZaiModelVo getAt(int rowIndex){
 		return this.dataList.get(rowIndex);
