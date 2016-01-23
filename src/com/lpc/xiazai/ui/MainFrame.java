@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,10 +42,27 @@ public class MainFrame extends JFrame {
 		panel.add(scrollPanel);
 		this.setContentPane(panel);
 		this.setJMenuBar(jmenuBar());
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent e){
-				System.out.println("你正在关闭窗体");
+				XiaZaiTableModel model = (XiaZaiTableModel) table.getModel();
+				int rowCount = model.getRowCount();
+				boolean flag = false;
+				for(int i = 0; i < rowCount; i++){
+					XiaZaiModelVo modelVo = model.getAt(i);
+					if(modelVo.getStatus() == 1){
+						flag = true;
+						break;
+					}
+				}
+				if(flag){
+					int option = JOptionPane.showConfirmDialog(MainFrame.this, "您还有正在下载中的任务，确定要退出吗？", "警告", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					if(option == 0){
+						System.exit(0);
+					}
+				}else{
+					System.exit(0);
+				}
 			}
 		});
 		this.setVisible(true);

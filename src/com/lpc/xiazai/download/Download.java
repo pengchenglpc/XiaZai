@@ -86,6 +86,7 @@ public abstract class Download {
 			model.setValueAt("100%", rowIndex , 2);
 			model.setValueAt("完成", rowIndex, 3);
 			model.setValueAt("完成", rowIndex, 4);
+			model.getAt(rowIndex).setStatus(3);
 		}
 	}
 	protected long startDownloadByte() throws NumberFormatException, IOException{
