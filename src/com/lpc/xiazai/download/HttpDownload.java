@@ -14,7 +14,6 @@ public class HttpDownload extends Download {
 
 	@Override
 	public void download() throws Exception {
-                //测试一下
 		URLConnection conn = url.openConnection();
 		File tmp = createTargetTmpFile();
 		this.addData();

@@ -20,6 +20,7 @@ import com.lpc.xiazai.common.CommonUtil;
 import com.lpc.xiazai.common.XiaZaiContext;
 import com.lpc.xiazai.download.Download;
 import com.lpc.xiazai.download.DownloadRunnable;
+import com.lpc.xiazai.download.FtpDownload;
 import com.lpc.xiazai.download.HttpDownload;
 import com.lpc.xiazai.vo.XiaZaiContextVo;
 
@@ -104,6 +105,8 @@ public class NewDownloadDialog extends JDialog {
 				Download download = null;
 				if("http".equalsIgnoreCase(protocol)){
 					download = new HttpDownload(id);
+				}else if("ftp".equalsIgnoreCase(protocol)){
+					download = new FtpDownload(id);
 				}
 				System.out.println(download.getClass().getName());
 				XiaZaiContext ctx = XiaZaiContext.getContext();

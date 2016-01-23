@@ -12,6 +12,7 @@ public class Startup {
 //		Long time = System.currentTimeMillis();
 //		down.run();
 //		System.out.println(System.currentTimeMillis() - time);
+//		System.out.println(new File("").getAbsolutePath());
 		new MainFrame("下载吧");
 	}
 
