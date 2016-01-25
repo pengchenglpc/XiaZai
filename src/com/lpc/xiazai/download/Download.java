@@ -106,6 +106,7 @@ public abstract class Download {
 		}
 		return 0l;
 	}
+	protected void interrupte() throws Exception{}
 	protected boolean isInterrupted(File tmp) throws IOException{
 		if(Thread.currentThread().isInterrupted()){
 			File file = new File(target, new File(url.getFile()).getName() + ".cfg");
@@ -147,6 +148,8 @@ public abstract class Download {
 		while((result = bufferInput.read(bytes)) != -1){
 			if(this.isInterrupted(tmp)){
 				raf.close();
+				bufferInput.close();
+				this.interrupte();
 				return;
 			}
 			raf.write(bytes, 0, result);

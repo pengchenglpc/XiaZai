@@ -1,20 +1,44 @@
 package com.lpc.xiazai.download;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
 public class FtpDownload extends Download {
-	private final String userName = "anonymous";
-	private final String password = "XiaZai";
+	private final String userName = "hadoop";
+	private final String password = "hadoop";
+	private FTPClient client = null;
 	public FtpDownload(String id) {
 		super(id);
 	}
-
+	protected void interrupte() throws Exception{
+		if(client != null){
+			client.disconnect();
+		}
+	}
 	@Override
 	public void download() throws Exception {
 		String host = url.getHost();
 		int port = url.getPort();
-		FTPClient client = new FTPClient();
+		String remoteFile = url.getFile();
+		client = new FTPClient();
 		client.connect(host, port);
+		boolean isLogin = client.login(userName, password);
+		System.out.println(isLogin);
+		FTPFile[] files = client.listFiles(remoteFile);
+		long remoteSize = files[0].getSize();
+		File tmp = createTargetTmpFile();
+		this.addData();
+		long startByte = this.startDownloadByte();
+		client.setRestartOffset(startByte);
+		System.out.println("isConnected-->" + client.isConnected());
+		InputStream input = client.retrieveFileStream(remoteFile);
+		this.downloadFile(input, tmp, startByte, remoteSize);
+		client.disconnect();
 //		FtpClient fc = FtpClient.create();
 //		fc = fc.connect(new InetSocketAddress(host, port));
 //		fc = fc.login(userName, password.toCharArray());
