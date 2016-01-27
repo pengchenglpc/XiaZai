@@ -28,6 +28,8 @@ public class FtpDownload extends Download {
 		client = new FTPClient();
 		client.connect(host, port);
 		boolean isLogin = client.login(userName, password);
+		client.enterLocalPassiveMode();
+		client.setFileType(FTPClient.BINARY_FILE_TYPE);
 		System.out.println(isLogin);
 		FTPFile[] files = client.listFiles(remoteFile);
 		long remoteSize = files[0].getSize();
